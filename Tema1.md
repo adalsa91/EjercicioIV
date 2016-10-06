@@ -65,3 +65,55 @@ Para Azure tenemos **210,81€ \* 12 meses \* 0,1 = 252,97€ al año**
 
 ####Conclusión
 A menos que hagamos un gran uso de las infraestructura, superior al 50% más o menos, la opción de contratar proveedores de servicios en la nube es mucho más rentable que el alquiler de un servidor dedicado.
+
+##Ejercicios 3##
+
+###1. ¿Qué tipo de virtualización usarías en cada caso? Comentar en el foro.###
+Si necesito ejecutar varias aplicaciones y funcionalidades de un SO diferente al mio de forma simultanea utilizo virtualización plena mediante el uso de hipervisores, normalmente de tipo 2 como VirtualBox.
+En caso de necesitar ejecutar solo una apliación específica sin necesidad explícita de las demás funciones del SO usaría virtualización de aplicaciones usando algún emulador como Wine.
+Cuando se necesita probar aplicaciones en un entorno seguro y que simule al de producción es recomendable usar contenedores (virtualización a nivel de sistema operativo) como por ejemplo Docker.
+
+###2. Crear un programa simple en cualquier lenguaje interpretado para Linux, empaquetarlo con CDE y probarlo en diferentes distribuciones.###
+
+El programa creado consiste en un simple print.
+```python
+#!/usr/bin/env python3
+
+print ("IT'S ALIVE")
+
+```
+
+Para empaquetar el programa simplemente usamos la orden **CDE** seguida del comando necesario para ejecutar el programa creado.
+
+![Empaquetado con CDE](https://www.dropbox.com/s/t8yh4aopfsxorqh/Tema1_Ejercicio3_2.png?dl=1 "Empaquetado con CDE")
+
+Si listamos el contenido del directorio donde hemos ejecutado la orden encontramos un archivo **cde.options** y una carpeta **cde-package**, el primero nos permite personalizar el comportamiento de **cde-exec** al ejecutar comandos dentro del paquete, la carpeta es donde se han empaquetado todos los archivos necesarios para la ejecución del comando que le pasamos como argumento.
+
+Empaquetamos estos archivos en un tar y los enviamos al ordenador en el que queremos ejecutarlo, una vez descomprimidos, dentro del paquete encontraremos un directorio llamado **cde-root** que contiene el arbol de directorios incluida la carpeta donde se empaqueto el programa python, una vez situados en ese directorio ejecutamos el script python usando el programa **cde-exec** que se encuentra en la raiz del paquete **cde-package**, para evitar tener que poner una hilera de puntos y barras para la ruta relativa CDE crea automáticamente un script de shell en el mismo directorio donde se encuentra el programa python evitando así tener que introducir la larga ruta relativa.
+
+![Ejecución paquete con cde-exec](https://www.dropbox.com/s/68ovx2hbttkl1u7/Tema1_Ejercicio3_2_1.png?dl=1 "Ejecución paquete con cde-exec")
+
+
+##Ejercicio 4##
+
+###Comprobar si el procesador o procesadores instalados tienen estos flags. ¿Qué modelo de procesador es? ¿Qué aparece como salida de esa orden?###
+
+El modelo del procesador es un [Intel Core i3-350M](http://ark.intel.com/es-es/products/43529/Intel-Core-i3-350M-Processor-3M-Cache-2_26-GHz) con tecnología de virtualización Vt-x de Intel, para comprobar que esta característica esta activada comprobamos la lista de **flags** en el fichero virtual **/proc/cpuinfo**, para ello usamos el siguiente comando:
+
+    egrep --color '(vmx|vt)' /proc/cpuinfo
+
+![Flags del procesador](https://www.dropbox.com/s/vpuq2t37leewg3v/Tema1_Ejercicio4.png?dl=1 "Flags del procesador")
+
+
+##Ejercicio 5##
+###1. Comprobar si el núcleo instalado en tu ordenador contiene este módulo del kernel usando la orden *kvm-ok*.###
+La orden **kvm-ok** es proporcionada por el paquete [CPU-Checker](https://launchpad.net/cpu-checker).
+
+![Comprobación de KVM con kvm-ok](https://www.dropbox.com/s/iysdrcvwmmjjxtw/Tema1_Ejercicio5_1.png?dl=1 "Comprobación de KVM con kvm-ok")
+
+El resultado del script muestra que la aceleración KVM esta activada y puede usarse.
+
+###2. Instalar un hipervisor para gestionar máquinas virtuales, que más adelante se podrá usar en pruebas y ejercicios.###
+He optado por utilizar VirtualBox 5.0
+
+![Hipervisor instalado](https://www.dropbox.com/s/fd8tytkmna10u7g/Tema1_Ejercicio5_2.png?dl=1 "Hipervisor instalado")
