@@ -26,3 +26,21 @@ Para activar el entorno virtual utilziamos el comando **source** de bash para qu
 ![Acticando entorno virtual](https://www.dropbox.com/s/ycwr5yov4sta8mp/Tema2_3.png?dl=1)
 
 Para salir del entorno virtual se usa el comando **deactivate**.
+
+
+##Ejercicio 2
+
+###Como ejercicio, algo ligeramente diferente: una web para calificar las empresas en las que hacen prácticas los alumnos. Las acciones serían 
+* Crear empresa
+* Listar calificaciones para cada empresa
+* Crear calificación y añadirla (comprobando que la persona no la haya añadido ya) 
+* Borrar calificación (si se arrepiente o te denuncia la empresa o algo)
+* Hacer un ránking de empresas por calificación, por ejemplo. 
+* Crear un repositorio en GitHub para la librería y crear un pequeño programa que use algunas de sus funcionalidades. 
+
+Si se quiere hacer con cualquier otra aplicación, también es válido.
+
+
+
+Para la realización de esta web he utilizado el framework Django, el código de la web se encuentra en [GitHub](https://github.com/adalsa91/IV_Calificar_Empresas)
+
