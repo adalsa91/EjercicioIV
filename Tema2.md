@@ -44,3 +44,19 @@ Si se quiere hacer con cualquier otra aplicación, también es válido.
 
 Para la realización de esta web he utilizado el framework Django, el código de la web se encuentra en [GitHub](https://github.com/adalsa91/IV_Calificar_Empresas)
 
+
+##Ejercicio 3
+
+###Ejecutar el programa en diferentes versiones del lenguaje. ¿Funciona en todas ellas?
+
+El programa se desarrollo para Python 2.7.6, para la prueba que se pide en este ejercicio creé un entorno virtual con los requisitos del anterior pero para la versión 3.4.4 de Python, al ejecutar e intentar cargar la página web aparece un error al importar los modelos, este error se debe a que en Python 3 no se puede importar con rutas relativas implícitas dentro de los paquetes ([pep-0404](https://www.python.org/dev/peps/pep-0404/#imports)); para subsanar este problema basta con modificar la siguiente linea:
+``` python
+from models import Empresa, Alumno
+```
+
+por esta otra en la que se utiliza una ruta relativa explicita:
+
+``` python
+from .models import Empresa, Alumno
+```
+Una vez realizado este cambio la aplicación funciona correctamente.
