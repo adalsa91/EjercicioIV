@@ -124,3 +124,104 @@ Para que funcione correctamente al documentar un proyecto python debemos añadir
 ```
 
 La documentación generada se alamacena en el directorio [docs](https://github.com/adalsa91/IV_Calificar_Empresas/tree/master/docs) del proyecto.
+
+En la siguiente imagen se puede ver un ejemplod e la documentación generada.
+
+![Ejemplo de documentación](https://github.com/adalsa91/EjercicioIV/blob/master/images/tema2/ejercicio5_1.png "Ejemplo de documentación generada con Sphinx")
+
+##Ejercicio 6
+###Para la aplicación que se está haciendo, escribir una serie de aserciones y probar que efectivamente no fallan. Añadir tests para una nueva funcionalidad, probar que falla y escribir el código para que no lo haga (vamos, lo que viene siendo TDD).
+
+Para probar el funcionamiento de los tests he creado un test sobre los models utilizados en la aplciación.
+
+``` python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from django.test import TestCase
+from calificaciones.models import Empresa
+from calificaciones.models import Alumno
+
+
+class EmpresaMethodTests(TestCase):
+
+    def test_empresa_creation(self):
+        emp = Empresa(nombre='Prueba')
+        emp.save()
+
+        empresas = Empresa.objects.all()
+        self.assertEqual(empresas.count(), 1)
+
+        self.assertEqual(emp.nombre, 'Prueba')
+        self.assertEqual(str(emp), emp.nombre)
+
+
+class AlumnoMethodTests(TestCase):
+
+    def test_alumno_creation(self):
+        emp = Empresa(nombre='Prueba')
+        emp.save()
+        alum = Alumno(nombre='John', empresa=emp, puntuacion='8')
+        alum.save()
+
+        alumnos = Alumno.objects.all()
+        self.assertEqual(alumnos.count(), 1)
+
+        self.assertEqual(alum.nombre, 'John')
+        self.assertEqual(alum.puntuacion, '8')
+
+
+```
+
+Una vez escritos los test probamos que se ejecutan correctamente con el comando `test` de la utilidad `manage.py`.
+
+![Resultados tests](https://github.com/adalsa91/EjercicioIV/blob/master/images/tema2/ejercicio5_2.png "Resultados tests")
+
+Ahora creamos un test para una nueva funcionalidad, por ejemplo para obtener el nombre de la empresa mejor valorada.
+
+```python
+class MejorEmpresaTests(TestCase):
+
+    def test_get_mejor_empresa(self):
+        emp1 = Empresa(nombre='Empresa1')
+        emp1.save()
+        emp2 = Empresa(nombre='Empresa2')
+        emp2.save()
+        emp3 = Empresa(nombre='Empresa3')
+        emp3.save()
+
+        alum1 = Alumno(nombre='John', empresa=emp1, puntuacion='7')
+        alum1.save()
+        alum2 = Alumno(nombre='Peter', empresa=emp2, puntuacion='8')
+        alum2.save()
+        alum3 = Alumno(nombre='Sophie', empresa=emp3, puntuacion='9')
+        alum3.save()
+
+        mejor = calificaciones.views.mejor_empresa()
+        self.assertEqual('Empresa3', mejor)
+```
+
+Si ahora intentamos pasar los tests obtenemos un error debido a que la función a testear no ha implementado todavía.
+
+![Ejemplo test fallido](https://github.com/adalsa91/EjercicioIV/blob/master/images/tema2/ejercicio5_3.png "Ejemplo de test fallido")
+
+Ahora implementamos la función para resolver el problema.
+
+```python
+def mejor_empresa():
+    """Comprueba cual es la empresa con mayor puntuación.
+
+    Busca cual es la empresa con mayor puntuación y devuelve su nombre.
+
+    Returns:
+    String con el nombre de la empresa con mejor puntuación.
+    """
+    puntuacion = 0
+    for alumno in Alumno.objects.all():
+        if alumno.puntuacion > puntuacion:
+            puntuacion = alumno.puntuacion
+            nombre = alumno.empresa.nombre
+
+    return nombre
+
+```
