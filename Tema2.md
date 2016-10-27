@@ -66,6 +66,7 @@ Una vez realizado este cambio la aplicación funciona correctamente.
 
 En mi caso el lenguaje usado ha sido Python, por lo que utilizaré la biblioteca **SetupTools** para describir el módulo.
 
+
 ``` python
 
 from setuptools import setup
@@ -104,3 +105,22 @@ setup(
 )
 
 ```
+
+##Ejercicio 5
+###Automatizar la generación de documentación de la librería que se cree.
+
+Para este apartado he usado el generador de documentación [Sphinx](http://www.sphinx-doc.org/es/stable/index.html). Para empezar a trabajar con él podemos instalarlo con **pip**:
+
+``` bash
+	$ pip install Sphinx
+```
+
+Para que funcione correctamente al documentar un proyecto python debemos añadir las siguientes lineas al fichero de configuración **conf.py** de *Sphinx*:
+
+```python
+	from django.conf import settings
+	settings.configure()
+
+```
+
+La documentación generada se alamacena en el directorio [docs](https://github.com/adalsa91/IV_Calificar_Empresas/tree/master/docs) del proyecto.
